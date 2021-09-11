@@ -33,11 +33,16 @@ public class ControladorPersona{
     @PostMapping(value = "/actualizarPersona")
     public Persona actualizarPersona(@RequestBody Persona persona){
 
-        if(serviciosPersona.listarId(persona.getId()) != null){
+        if((serviciosPersona.listarId(persona.getId())).orElse(null) != null){
             return serviciosPersona.guardar(persona);
         }else {
-            throw new RuntimeException("No existe el id para actualizar");
+            return null;
         }
 
     }
+/*
+    @GetMapping(value = "/listarPersona/{id}")
+    public Optional<Persona> listarPersonaId(@PathVariable("id") int id){
+        return serviciosPersona.listarId(id);
+    }*/
 }
