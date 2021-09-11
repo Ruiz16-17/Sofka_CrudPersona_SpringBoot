@@ -34,8 +34,4 @@ public class ServicioPersona implements InterfazServiciosPersona{
         data.deleteById(id);
     }
 
-    @Override
-    public Persona actualizar(Persona persona) {
-        return null;
-    }
 }

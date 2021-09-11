@@ -33,6 +33,11 @@ public class ControladorPersona{
     @PostMapping(value = "/actualizarPersona")
     public Persona actualizarPersona(@RequestBody Persona persona){
 
-        return serviciosPersona.guardar(persona);
+        if(serviciosPersona.listarId(persona.getId()) != null){
+            return serviciosPersona.guardar(persona);
+        }else {
+            throw new RuntimeException("No existe el id para actualizar");
+        }
+
     }
 }
