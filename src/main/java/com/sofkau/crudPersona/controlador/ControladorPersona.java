@@ -5,6 +5,8 @@ import com.sofkau.crudPersona.servicios.InterfazServiciosPersona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("api")
 public class ControladorPersona{
@@ -17,8 +19,19 @@ public class ControladorPersona{
         return serviciosPersona.listar();
     }
 
+    @GetMapping(value = "/listarPersona/{id}")
+    public Optional<Persona> listarPersonaId(@PathVariable("id") int id){
+        return serviciosPersona.listarId(id);
+    }
+
     @PostMapping(value = "/guardarPersona")
     public Persona guardarPersona(@RequestBody Persona persona){
+
+        return serviciosPersona.guardar(persona);
+    }
+
+    @PostMapping(value = "/actualizarPersona")
+    public Persona actualizarPersona(@RequestBody Persona persona){
 
         return serviciosPersona.guardar(persona);
     }
