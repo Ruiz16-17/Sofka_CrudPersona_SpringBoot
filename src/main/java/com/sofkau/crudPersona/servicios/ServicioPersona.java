@@ -20,8 +20,17 @@ public class ServicioPersona implements InterfazServiciosPersona{
     }
 
     @Override
-    public Optional<Persona> listarId(int id) {
-        return data.findById(id);
+    public Optional<Persona> listarId(int id) throws Exception {
+
+        Persona persona = data.findById(id).orElse(null);
+
+        if (persona != null){
+
+            return data.findById(id);
+        }
+
+        throw new Exception("No se encontró el registro");
+
     }
 
     @Override
