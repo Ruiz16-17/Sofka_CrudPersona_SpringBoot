@@ -40,9 +40,10 @@ public class ControladorPersona{
         }
 
     }
-/*
-    @GetMapping(value = "/listarPersona/{id}")
-    public Optional<Persona> listarPersonaId(@PathVariable("id") int id){
-        return serviciosPersona.listarId(id);
-    }*/
+
+    @PostMapping(value = "/eliminarPersona/{id}")
+    public void eliminarPersona(@PathVariable("id") int id){
+
+        serviciosPersona.eliminar(id);
+    }
 }
