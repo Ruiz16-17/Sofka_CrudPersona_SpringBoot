@@ -20,15 +20,8 @@ public class ControladorPersona{
     }
 
     @GetMapping(value = "/listarPersona/{id}")
-    public Object listarPersonaId(@PathVariable("id") int id){
-
-        try {
-
-            return serviciosPersona.listarId(id);
-        }catch (Exception e){
-
-            return e.getMessage();
-        }
+    public Optional<Persona> listarPersonaId(@PathVariable("id") int id){
+        return serviciosPersona.listarId(id);
     }
 
     @PostMapping(value = "/guardarPersona")
@@ -36,17 +29,12 @@ public class ControladorPersona{
 
         return serviciosPersona.guardar(persona);
     }
-/*
+
     @PostMapping(value = "/actualizarPersona")
     public Persona actualizarPersona(@RequestBody Persona persona){
-
-        if((serviciosPersona.listarId(persona.getId())).orElse(null) != null){
-            return serviciosPersona.guardar(persona);
-        }else {
-            return null;
-        }
+            return serviciosPersona.actualizar(persona);
     }
-*/
+
     @DeleteMapping(value = "/eliminarPersona/{id}")
     public void eliminarPersona(@PathVariable("id") int id){
 

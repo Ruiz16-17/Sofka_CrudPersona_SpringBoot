@@ -1,6 +1,8 @@
 package com.sofkau.crudPersona.servicios;
 
 import com.sofkau.crudPersona.entidades.Persona;
+import com.sofkau.crudPersona.excepciones.excepcion.BadRequestException;
+import com.sofkau.crudPersona.excepciones.excepcion.NotFoundException;
 import com.sofkau.crudPersona.repositorio.InterfazRepositorioPersona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,35 +14,54 @@ import java.util.Optional;
 public class ServicioPersona implements InterfazServiciosPersona{
 
     @Autowired
-    private InterfazRepositorioPersona data;
+    private InterfazRepositorioPersona personaRepository;
 
     @Override
     public List<Persona> listar() {
-        return (List<Persona>) data.findAll();
+        return (List<Persona>) personaRepository.findAll();
     }
 
     @Override
-    public Optional<Persona> listarId(int id) throws Exception {
+    public Optional<Persona> listarId(int id) {
 
-        Persona persona = data.findById(id).orElse(null);
+        if (personaRepository.existsById(id)){
 
-        if (persona != null){
-
-            return data.findById(id);
+            return personaRepository.findById(id);
         }
 
-        throw new Exception("No se encontró el registro");
-
+        throw new NotFoundException("Persona no encontrada");
     }
 
     @Override
     public Persona guardar(Persona persona) {
-        return data.save(persona);
+
+        if (persona.getNombre() != null || persona.getNombre() != ""){
+            return personaRepository.save(persona);
+        }
+
+        throw new BadRequestException("Datos vacíos");
+    }
+
+    @Override
+    public Persona actualizar(Persona persona) {
+
+        if (personaRepository.existsById(persona.getId())){
+            return guardar(persona);
+        }
+
+        throw new NotFoundException("Persona no encontrada");
     }
 
     @Override
     public void eliminar(int id) {
-        data.deleteById(id);
+        if (personaRepository.existsById(id)) {
+
+            personaRepository.deleteById(id);
+        }else {
+
+            throw new NotFoundException("Persona no encontrada");
+        }
+
     }
 
 }
